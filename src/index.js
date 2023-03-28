@@ -98,9 +98,10 @@ refs.form.addEventListener('submit', async e => {
 
   const lightbox = new SimpleLightbox('.gallery a', {
     /* options */
-    widthRatio: 1,
-    heightRatio: 1,
+    widthRatio: 0.5,
+    heightRatio: 0.5,
     scaleImageToRatio: true,
+    maxZoom: 10,
   });
 });
 
