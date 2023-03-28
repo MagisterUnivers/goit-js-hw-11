@@ -118,6 +118,15 @@ refs.lMoreBtn.addEventListener('click', async () => {
       API_LINK_PARAMS_PER_PAGE
   );
   console.log(data);
+
+  const lightbox = new SimpleLightbox('.gallery a', {
+    /* options */
+    widthRatio: 0.5,
+    heightRatio: 0.5,
+    scaleImageToRatio: true,
+    maxZoom: 10,
+  });
+
   if (page === 3) {
     Notiflix.Notify.warning(
       'Beware, many images can make your browsing a little bit slower'
@@ -147,6 +156,8 @@ refs.lMoreBtn.addEventListener('click', async () => {
     );
     refs.lMoreBtn.classList.remove('hide');
   }
+
+  lightbox.refresh();
 });
 
 /**
