@@ -98,10 +98,10 @@ refs.form.addEventListener('submit', async e => {
 
   const lightbox = new SimpleLightbox('.gallery a', {
     /* options */
-    widthRatio: 0.5,
-    heightRatio: 0.5,
-    scaleImageToRatio: true,
-    maxZoom: 10,
+    // widthRatio: 0.5,
+    // heightRatio: 0.5,
+    // scaleImageToRatio: true,
+    // maxZoom: 10,
   });
 });
 
@@ -121,10 +121,10 @@ refs.lMoreBtn.addEventListener('click', async () => {
 
   const lightbox = new SimpleLightbox('.gallery a', {
     /* options */
-    widthRatio: 0.5,
-    heightRatio: 0.5,
-    scaleImageToRatio: true,
-    maxZoom: 10,
+    // widthRatio: 0.5,
+    // heightRatio: 0.5,
+    // scaleImageToRatio: true,
+    // maxZoom: 10,
   });
 
   if (page === 3) {
@@ -185,7 +185,7 @@ async function fetchSomePic(searchName) {
 
 function createPic(picture) {
   return `<div class="photo-card"><a href="${picture.largeImageURL}">
-  <img src="${picture.webformatURL}" alt="${picture.tags}" loading="lazy" /></a>
+  <img src="${picture.webformatURL}" alt="${picture.tags}" loading="lazy" width=500 heigth=500/></a>
   <div class="info">
     <p class="info-item">
       <b>Likes
