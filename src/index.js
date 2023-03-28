@@ -62,8 +62,6 @@ refs.form.addEventListener('submit', async e => {
   page = 1;
   loadedImagesCount = 0;
 
-  Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
-
   // Search field logic
 
   if (inputElValue.length === 0) {
@@ -84,11 +82,12 @@ refs.form.addEventListener('submit', async e => {
     refs.mainDiv.innerHTML = data.hits.map(elem => createPic(elem)).join('');
     refs.lMoreBtn.disabled = false;
     loadedImagesCount += data.hits.length;
+    Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
   }
 
   // Button hiding with Search
 
-  if (loadedImagesCount >= data.totalHits) {
+  if (loadedImagesCount >= data.totalHits && inputElValue.length != 0) {
     Notiflix.Notify.failure(
       `We're sorry, but you've reached the end of search results. Last of them was loaded to the page`
     );
