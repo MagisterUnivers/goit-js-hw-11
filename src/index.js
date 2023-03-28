@@ -87,7 +87,7 @@ refs.form.addEventListener('submit', async e => {
 
   // Button hiding with Search
 
-  if (loadedImagesCount >= data.totalHits && inputElValue.length != 0) {
+  if (loadedImagesCount >= data.totalHits && data.hits.length != 0) {
     Notiflix.Notify.failure(
       `We're sorry, but you've reached the end of search results. Last of them was loaded to the page`
     );
