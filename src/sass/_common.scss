@@ -1,1 +1,60 @@
 @import '~node_modules/modern-normalize/modern-normalize.css';
+
+.info {
+  flex-flow: column wrap;
+  gap: 10px;
+  place-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+}
+
+.photo-card {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.gallery {
+  align-items: center;
+  flex-flow: wrap;
+  gap: 20px;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+img {
+  display: block;
+  max-width: 500px;
+  height: auto;
+}
+
+.load-more {
+  margin-left: auto;
+  justify-content: center;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  flex-direction: row;
+  margin-right: auto;
+  margin-top: 50px;
+}
+
+.hide {
+  display: none;
+}
+
+.search-form {
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin-top: 20px;
+}

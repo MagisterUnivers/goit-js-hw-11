@@ -31,6 +31,7 @@ const refs = {
 
 let inputElValue = '';
 let page = 1;
+let loadedImagesCount = 0;
 refs.lMoreBtn.disabled = true;
 const count = refs.mainDiv.childElementCount;
 
@@ -42,7 +43,7 @@ const count = refs.mainDiv.childElementCount;
 
 refs.form.addEventListener('submit', async e => {
   e.preventDefault();
-  inputElValue = refs.inputEl.value;
+  inputElValue = refs.inputEl.value.trim();
 
   const data = await fetchSomePic(
     API_LINK +
@@ -56,6 +57,11 @@ refs.form.addEventListener('submit', async e => {
   );
   console.log(data);
 
+  page = 1;
+  loadedImagesCount = 0;
+
+  Notiflix.Notify.warning(`Hooray! We found ${data.totalHits} images.`);
+
   if (inputElValue.length === 0) {
     refs.mainDiv.innerHTML = data.hits.map(elem => createPic(elem)).join('');
     Notiflix.Notify.warning(
@@ -68,6 +74,24 @@ refs.form.addEventListener('submit', async e => {
   } else {
     refs.mainDiv.innerHTML = data.hits.map(elem => createPic(elem)).join('');
     refs.lMoreBtn.disabled = false;
+    loadedImagesCount += data.hits.length;
+  }
+
+  if (loadedImagesCount >= data.totalHits) {
+    refs.mainDiv.insertAdjacentHTML(
+      'beforeend',
+      data.hits.map(elem => createPic(elem)).join('')
+    );
+    Notiflix.Notify.failure(
+      `We're sorry, but you've reached the end of search results. Last of them was loaded to the page`
+    );
+    refs.lMoreBtn.classList.add('hide');
+  } else {
+    refs.mainDiv.insertAdjacentHTML(
+      'beforeend',
+      data.hits.map(elem => createPic(elem)).join('')
+    );
+    refs.lMoreBtn.classList.remove('hide');
   }
 });
 
@@ -84,15 +108,35 @@ refs.lMoreBtn.addEventListener('click', async () => {
       API_LINK_PARAMS_PER_PAGE
   );
   console.log(data);
-  if (page === 3)
+  if (page === 3) {
     Notiflix.Notify.warning(
       'Beware, many images can make your browsing a little bit slower'
     );
+  } else if (loadedImagesCount >= 100) {
+    Notiflix.Notify.warning(
+      'You have reached 100 images. Consider refining your search to avoid slowing down the page.'
+    );
+  }
 
-  refs.mainDiv.insertAdjacentHTML(
-    'beforeend',
-    data.hits.map(elem => createPic(elem)).join('')
-  );
+  loadedImagesCount += data.hits.length;
+  console.log(loadedImagesCount);
+
+  if (loadedImagesCount >= data.totalHits) {
+    refs.mainDiv.insertAdjacentHTML(
+      'beforeend',
+      data.hits.map(elem => createPic(elem)).join('')
+    );
+    Notiflix.Notify.failure(
+      `We're sorry, but you've reached the end of search results. Last of them was loaded to the page`
+    );
+    refs.lMoreBtn.classList.add('hide');
+  } else {
+    refs.mainDiv.insertAdjacentHTML(
+      'beforeend',
+      data.hits.map(elem => createPic(elem)).join('')
+    );
+    refs.lMoreBtn.classList.remove('hide');
+  }
 });
 
 /**
@@ -123,16 +167,20 @@ function createPic(picture) {
   <img src="${picture.webformatURL}" alt="${picture.tags}" loading="lazy" />
   <div class="info">
     <p class="info-item">
-      <b>${picture.likes}</b>
+      <b>Likes
+      ${picture.likes}</b>
     </p>
     <p class="info-item">
-      <b>${picture.views}</b>
+      <b>Views
+      ${picture.views}</b>
     </p>
     <p class="info-item">
-      <b>${picture.comments}</b>
+      <b>Comments
+      ${picture.comments}</b>
     </p>
     <p class="info-item">
-      <b>${picture.downloads}</b>
+      <b>Downloads
+      ${picture.downloads}</b>
     </p>
   </div>
 </div>`;
