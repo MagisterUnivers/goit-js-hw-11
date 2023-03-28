@@ -6,6 +6,8 @@
 
 import Notiflix from 'notiflix';
 import 'notiflix/dist/notiflix-3.2.6.min.css';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 /**
   |============================
@@ -93,6 +95,13 @@ refs.form.addEventListener('submit', async e => {
     );
     refs.lMoreBtn.classList.remove('hide');
   }
+
+  const lightbox = new SimpleLightbox('.gallery a', {
+    /* options */
+    widthRatio: 1,
+    heightRatio: 1,
+    scaleImageToRatio: true,
+  });
 });
 
 refs.lMoreBtn.addEventListener('click', async () => {
@@ -163,8 +172,8 @@ async function fetchSomePic(searchName) {
 }
 
 function createPic(picture) {
-  return `<div class="photo-card">
-  <img src="${picture.webformatURL}" alt="${picture.tags}" loading="lazy" />
+  return `<div class="photo-card"><a href="${picture.largeImageURL}">
+  <img src="${picture.webformatURL}" alt="${picture.tags}" loading="lazy" /></a>
   <div class="info">
     <p class="info-item">
       <b>Likes
