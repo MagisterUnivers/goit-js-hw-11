@@ -34,7 +34,7 @@ const refs = {
 let inputElValue = '';
 let page = 1;
 let loadedImagesCount = 0;
-refs.lMoreBtn.disabled = true;
+refs.lMoreBtn.classList.add('hide');
 const count = refs.mainDiv.childElementCount;
 
 /**
@@ -62,7 +62,9 @@ refs.form.addEventListener('submit', async e => {
   page = 1;
   loadedImagesCount = 0;
 
-  Notiflix.Notify.warning(`Hooray! We found ${data.totalHits} images.`);
+  Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
+
+  // Search field logic
 
   if (inputElValue.length === 0) {
     refs.mainDiv.innerHTML = data.hits.map(elem => createPic(elem)).join('');
@@ -73,28 +75,29 @@ refs.form.addEventListener('submit', async e => {
     Notiflix.Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
+  } else if (loadedImagesCount >= data.totalHits) {
+    refs.mainDiv.insertAdjacentHTML(
+      'beforeend',
+      data.hits.map(elem => createPic(elem)).join('')
+    );
   } else {
     refs.mainDiv.innerHTML = data.hits.map(elem => createPic(elem)).join('');
     refs.lMoreBtn.disabled = false;
     loadedImagesCount += data.hits.length;
   }
 
+  // Button hiding with Search
+
   if (loadedImagesCount >= data.totalHits) {
-    refs.mainDiv.insertAdjacentHTML(
-      'beforeend',
-      data.hits.map(elem => createPic(elem)).join('')
-    );
     Notiflix.Notify.failure(
       `We're sorry, but you've reached the end of search results. Last of them was loaded to the page`
     );
     refs.lMoreBtn.classList.add('hide');
   } else {
-    refs.mainDiv.insertAdjacentHTML(
-      'beforeend',
-      data.hits.map(elem => createPic(elem)).join('')
-    );
     refs.lMoreBtn.classList.remove('hide');
   }
+
+  console.log(loadedImagesCount);
 
   const lightbox = new SimpleLightbox('.gallery a', {
     /* options */
@@ -104,6 +107,8 @@ refs.form.addEventListener('submit', async e => {
     // maxZoom: 10,
   });
 });
+
+//  Button Add More
 
 refs.lMoreBtn.addEventListener('click', async () => {
   page += 1;
@@ -127,11 +132,7 @@ refs.lMoreBtn.addEventListener('click', async () => {
     // maxZoom: 10,
   });
 
-  if (page === 3) {
-    Notiflix.Notify.warning(
-      'Beware, many images can make your browsing a little bit slower'
-    );
-  } else if (loadedImagesCount >= 100) {
+  if (loadedImagesCount >= 100) {
     Notiflix.Notify.warning(
       'You have reached 100 images. Consider refining your search to avoid slowing down the page.'
     );
@@ -188,19 +189,19 @@ function createPic(picture) {
   <img src="${picture.webformatURL}" alt="${picture.tags}" loading="lazy" width=500 heigth=500/></a>
   <div class="info">
     <p class="info-item">
-      <b>Likes
+      <b>Likes<br>
       ${picture.likes}</b>
     </p>
     <p class="info-item">
-      <b>Views
+      <b>Views<br>
       ${picture.views}</b>
     </p>
     <p class="info-item">
-      <b>Comments
+      <b>Comments<br>
       ${picture.comments}</b>
     </p>
     <p class="info-item">
-      <b>Downloads
+      <b>Downloads<br>
       ${picture.downloads}</b>
     </p>
   </div>
